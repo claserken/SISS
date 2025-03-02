@@ -1,0 +1,10 @@
+defaults:
+  - sd_prompts_base
+  - _self_
+
+project_name: sd-prompt-sweep
+hydra:
+  mode: MULTIRUN
+  sweeper:
+    params:
+      images_name: "charlize_theron_dark_places_trailer, ethan_hawke_chet_baker_biopic, grieve_cream_navy_area_rug, netflix_att_streaming_deal, f_scott_fitzgerald_lost_story, health_mastery_cafe_podcast, dc_all_stars_podcast, willy_wonka, fractal_art_canvas, air_conditioners_parts, plattville_green_rug, shaw_floors_sahara, colbert_coffee, chris_robinson_beer, winds_of_winter_delay, south_park_game_review, aretha_franklin_lawsuit, foyer_salty_air, bellevue_stripe_curtain, christmas_woofs_curtain, watercolor_skull_bedding, red_floor_pillow, shimmering_green_kitchen, icelandic_poppy_iphone_case, move_or_be_moved_tee"

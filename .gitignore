@@ -1,0 +1,15 @@
+wandb
+outputs
+input
+.vscode
+.ipynb_checkpoints
+__pycache__
+data/examples
+checkpoints/
+sd-sylvester-deletion/
+notebooks/data
+cifar_grid.png
+mnist_grid.png
+multirun/
+*.png
+*.parquet

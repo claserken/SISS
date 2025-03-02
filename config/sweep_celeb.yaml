@@ -1,0 +1,9 @@
+defaults:
+  - sweep_celeb_base
+  - _self_
+
+hydra:
+  mode: MULTIRUN
+  sweeper:
+    params:
+      +deletion: "{loss_fn: importance_sampling_with_mixture, loss_params: {lambd: 0}}"

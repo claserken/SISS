@@ -1,0 +1,83 @@
+random_seed: 42
+resolution: 64
+enable_xformers_memory_efficient_attention: false
+
+lr_scheduler: cosine
+lr_warmup_steps: 500
+gradient_accumulation_steps: 1
+mixed_precision: bf16 # Choices: null, "fp16", "bf16". Bf16 requires an Nvidia Ampere GPU or newer
+checkpointing_steps: 500 # Save a checkpoint every N updates. For resuming using "resume_from_checkpoint"
+sampling_steps: 50 # Sample from model every N updates for logging
+checkpoints_total_limit: null # Max number of checkpoints to keep
+resume_from_checkpoint: null # Use a path saved by checkpointing_steps or "latest" to automatically select the last available
+center_crop: false
+random_flip: false
+train_batch_size: 16
+eval_batch_size: 16
+dataloader_num_workers: 0
+num_epochs: 100
+save_images_epochs: 10
+save_model_epochs: 10
+
+optimizer:
+  _target_: torch.optim.AdamW
+  lr: 1e-4
+  betas: 
+    - 0.95
+    - 0.999
+  weight_decay: 1e-6
+  eps: 1e-8
+
+logging:
+  logger: wandb # Choices: "wandb", "tensorboard" (Wandb is significantly better supported)
+  logging_dir: logs
+
+dataset:
+  _type: huggingface # Choices: "huggingface" or "custom" (use _target_ to specify custom class)
+  dataset_name: mnist
+  dataset_config_name: null
+
+unet:
+  _type: initialize # Choices: "initialize", "pretrained"
+  _target_: diffusers.UNet2DModel
+  sample_size: ${resolution}
+  in_channels: 3
+  out_channels: 3
+  layers_per_block: 2
+  block_out_channels: 
+    - 128
+    - 128
+    - 256
+    - 256
+    - 512
+    - 512
+  down_block_types:
+    - DownBlock2D
+    - DownBlock2D
+    - DownBlock2D
+    - DownBlock2D
+    - AttnDownBlock2D
+    - DownBlock2D
+  up_block_types:
+    - UpBlock2D
+    - AttnUpBlock2D
+    - UpBlock2D
+    - UpBlock2D
+    - UpBlock2D
+    - UpBlock2D
+
+scheduler:
+  _type: "initialize" # Choices: "initialize", "pretrained"
+  _target_: diffusers.DDPMScheduler
+  num_train_timesteps: 1000
+  beta_schedule: linear
+  prediction_type: "epsilon" # Choices: "epsilon", "sample"
+
+pipeline:
+  num_inference_steps: 50
+
+ema:
+  use_ema: true
+  ema_inv_gamma: 1.0
+  ema_power: 0.75
+  ema_max_decay: 0.9999

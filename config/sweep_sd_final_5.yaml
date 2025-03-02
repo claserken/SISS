@@ -1,0 +1,14 @@
+defaults:
+  - sd_prompts_base
+  - _self_
+
+hydra:
+  mode: MULTIRUN
+  sweeper:
+    params:
+      images_name: plattville_green_rug, shaw_floors_sahara, colbert_coffee, chris_robinson_beer, winds_of_winter_delay
+      +deletion: "{loss_fn: importance_sampling_with_mixture, loss_params: {lambd: 0.5}},
+                  {loss_fn: erasediff},
+                  {loss_fn: double_forward_with_neg_del},
+                  {loss_fn: importance_sampling_with_mixture, loss_params: {lambd: 1}},
+                  {loss_fn: importance_sampling_with_mixture, loss_params: {lambd: 0}}" 

@@ -1,0 +1,45 @@
+defaults:
+  - sd_del_params_base
+  - _self_
+
+project_name: sd-deletion-params-sweep
+hydra:
+  mode: MULTIRUN
+  sweeper:
+    params:
+      +deletion: "{loss_fn: naive_del, training_steps: 100, loss_params: {}},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.0, lambd: 0.0}, superfactor_decay: 0.98},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.0, lambd: 0.0}, superfactor_decay: 0.99},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.0, lambd: 0.0}, superfactor_decay: 1},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.0, lambd: 0.25}, superfactor_decay: 0.98},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.0, lambd: 0.25}, superfactor_decay: 0.99},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.0, lambd: 0.25}, superfactor_decay: 1},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.0, lambd: 0.5}, superfactor_decay: 0.98},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.0, lambd: 0.5}, superfactor_decay: 0.99},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.0, lambd: 0.5}, superfactor_decay: 1},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.0, lambd: 0.75}, superfactor_decay: 0.98},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.0, lambd: 0.75}, superfactor_decay: 0.99},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.0, lambd: 0.75}, superfactor_decay: 1},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.0, lambd: 1.0}, superfactor_decay: 0.98},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.0, lambd: 1.0}, superfactor_decay: 0.99},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.0, lambd: 1.0}, superfactor_decay: 1},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.5, lambd: 0.0}, superfactor_decay: 0.98},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.5, lambd: 0.0}, superfactor_decay: 0.99},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.5, lambd: 0.0}, superfactor_decay: 1},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.5, lambd: 0.25}, superfactor_decay: 0.98},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.5, lambd: 0.25}, superfactor_decay: 0.99},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.5, lambd: 0.25}, superfactor_decay: 1},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.5, lambd: 0.5}, superfactor_decay: 0.98},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.5, lambd: 0.5}, superfactor_decay: 0.99},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.5, lambd: 0.5}, superfactor_decay: 1},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.5, lambd: 0.75}, superfactor_decay: 0.98},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.5, lambd: 0.75}, superfactor_decay: 0.99},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.5, lambd: 0.75}, superfactor_decay: 1},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.5, lambd: 1.0}, superfactor_decay: 0.98},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.5, lambd: 1.0}, superfactor_decay: 0.99},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 0.5, lambd: 1.0}, superfactor_decay: 1},
+{loss_fn: importance_sampling_with_mixture, training_steps: 50, loss_params: {superfactor: 1.0, lambd: 0.0}, superfactor_decay: 0.98}"
+
+
+# Extremely hackish way of updating training_steps
+training_steps: ${deletion.training_steps}      

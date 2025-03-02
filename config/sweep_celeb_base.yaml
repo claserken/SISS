@@ -1,0 +1,119 @@
+task:
+  _target_: delete_celeb.DeleteCeleb
+
+random_seed: 42
+project_name: celeb-deletion-sweep-final
+output_dir: checkpoints/celeb/deletion
+checkpoint_path: google/ddpm-celebahq-256
+data_dir: data/examples/celeba_hq_256
+
+deletion:
+  img_name: null # [10000.jpg]
+  loss_fn: null # Options are [importance_sampling_with_mixture, double_forward_with_neg_del, naive_del, simple_neg_del, modified_noise_obj, erasediff]
+  timestep_del_window: null # only for modified_noise_obj (500 is good)
+  scaling_norm: 500 # for siss and ablations
+  eta: 1e-3 # for erasediff
+  loss_params: {}
+    # lambd: 0.5
+  superfactor_decay: null
+  # IGNORE ALL BELOW: just placeholders for running sweep
+  inception_frequency: null 
+  training_steps: null
+
+transform:
+  _target_: torchvision.transforms.Compose
+  transforms:
+    - _target_: torchvision.transforms.ToTensor
+    - _target_: torchvision.transforms.Normalize # Normalize to range [-1, 1]
+      mean: [0.5] 
+      std: [0.5] 
+
+metrics:
+  classifier_cfg: null
+  fraction_deletion: null
+  inception_score: null
+  fid: null
+    # class_cfg:
+    #   _target_: metrics.fid.FIDEvaluator
+    #   inception_batch_size: 64
+    # step_frequency: 5
+    # num_imgs_to_generate: 10000
+    # batch_size: 16 
+  denoising_injections:
+    timestep: 250
+    img_path: ${data_dir}/${deletion.img_name[0]}
+  likelihood: # null
+    class_cfg:
+      _target_: metrics.likelihood.LikelihoodEvaluator
+      sde:
+        _target_: metrics.song_likelihood.sde_lib.VPSDE
+    step_frequency: 3
+  membership_loss: null
+    # class_cfg:
+    #   _target_: metrics.class_membership.MembershipLoss
+    #   num_image_samples: 32 #1024
+    #   num_noise_samples: 32 #128
+    #   eval_batch_size: 4
+    # timesteps: [200, 400, 600, 800, 900]
+    # plot_params: null
+    # #   save_path: 'cifar_losses.png'
+    # #   time_frequency: 10 # initial graph for all membership losses
+    # step_frequency: 1 # re-evaluate every gradient step
+
+ema:
+  use_ema: false # Unnecessary for deletion fine-tuning (only need to load in ema weights from training at start)
+
+subfolders:
+  unet_ema: null
+  noise_scheduler: null
+
+scheduler:
+  _type: pretrained
+  _target_: diffusers.DDPMScheduler
+  prediction_type: epsilon
+
+sampling_steps: 1 # Specifies number of gradient steps after which to evaluate
+checkpointing_steps: 60 # Specifies number of gradient steps after which to save checkpoint
+training_steps: 60
+warmup_steps: 0 # for lr scheduler
+eval_batch_size: 1
+gradient_accumulation_steps: 32
+mixed_precision: null # Choices: null (defaults to fp32), "fp16", "bf16". Bf16 requires an Nvidia Ampere GPU or newer
+resume_from_checkpoint: null
+train_batch_size: 2 # Makes 500 steps roughly 1 epoch
+dataloader_num_workers: 0
+checkpoints_total_limit: null
+
+lr_scheduler: constant
+lr_warmup_steps: 0
+
+dataset_all:
+  _target_: data.src.celeb_dataset.CelebAHQ
+  filter: nondeletion
+  data_path: ${data_dir}
+  remove_img_names: ${deletion.img_name}
+
+dataset_deletion:
+  _target_: data.src.celeb_dataset.CelebAHQ
+  filter: deletion
+  data_path: ${data_dir}
+  remove_img_names: ${deletion.img_name}
+
+unet:
+  _target_: diffusers.UNet2DModel
+
+optimizer:
+  _target_: torch.optim.AdamW
+  lr: 5e-6
+  betas: 
+    - 0.95
+    - 0.999
+  weight_decay: 1e-6
+  eps: 1e-8
+
+logging:
+  logger: wandb # Choices: "wandb", "tensorboard" (Wandb is significantly better supported)
+  logging_dir: logs
+
+pipeline:
+  num_inference_steps: 50

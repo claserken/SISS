@@ -1,0 +1,50 @@
+unet:
+  _target_: diffusers.UNet2DModel
+
+transform:
+  _target_: torchvision.transforms.Compose
+  transforms:
+    - _target_: torchvision.transforms.ToTensor
+    - _target_: torchvision.transforms.Normalize # Normalize to range [-1, 1]
+      mean: [0.5] 
+      std: [0.5] 
+
+subfolders: # for loading later (in this case, pretrained so not needed)
+  unet_ema: null
+  unet: null
+  noise_scheduler: null 
+
+dataset:
+  name: cifar10
+  image_key: img 
+  split: train
+
+random_seed: 42
+train_batch_size: 128 # Makes 500 steps roughly 1 epoch
+eval_batch_size: 64
+dataloader_num_workers: 0
+gradient_accumulation_steps: 1
+mixed_precision: null # Choices: null (defaults to fp32), "fp16", "bf16". Bf16 requires an Nvidia Ampere GPU or newer
+lr_scheduler: cosine
+checkpoints_total_limit: null # Max number of checkpoints to keep
+
+pipeline:
+  num_inference_steps: 50
+
+logging:
+  logger: wandb # Choices: "wandb", "tensorboard" (Wandb is significantly better supported)
+  logging_dir: logs
+
+optimizer:
+  _target_: torch.optim.AdamW
+  lr: 1e-4
+  betas: 
+    - 0.95
+    - 0.999
+  weight_decay: 1e-6
+  eps: 1e-8
+
+scheduler:
+  _type: pretrained
+  _target_: diffusers.DDPMScheduler
+  prediction_type: epsilon

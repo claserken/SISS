@@ -1,0 +1,14 @@
+defaults:
+  - sd_prompts_base
+  - _self_
+
+hydra:
+  mode: MULTIRUN
+  sweeper:
+    params:
+      images_name: mother_hippo_influence, sylvester_stallone, danny_boyle_fx_tv_deal, steve_carell_north_korea_movie_canceled, prince_warner_brothers_album, st_vincent_apple_music_show
+      +deletion: "{loss_fn: importance_sampling_with_mixture, loss_params: {lambd: 0.5}},
+                  {loss_fn: erasediff},
+                  {loss_fn: double_forward_with_neg_del},
+                  {loss_fn: importance_sampling_with_mixture, loss_params: {lambd: 1}},
+                  {loss_fn: importance_sampling_with_mixture, loss_params: {lambd: 0}}" 

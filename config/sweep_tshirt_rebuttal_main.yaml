@@ -1,0 +1,27 @@
+defaults:
+  - sweep_tshirt_rebuttal_base
+  - _self_
+
+hydra:
+  mode: MULTIRUN
+  sweeper:
+    params:
+      +deletion: "{loss_fn: importance_sampling_with_mixture, loss_params: {lambd: 0.5}, train_batch_size: 32},
+                  {loss_fn: importance_sampling_with_mixture, loss_params: {lambd: 0.5}, train_batch_size: 64},
+                  {loss_fn: importance_sampling_with_mixture, loss_params: {lambd: 0.5}, train_batch_size: 128},
+                  {loss_fn: importance_sampling_with_mixture, loss_params: {lambd: 0.5}, train_batch_size: 256},
+                  {loss_fn: subscore_bernoulli, loss_params: {lambd: 0.5}, train_batch_size: 32},
+                  {loss_fn: subscore_bernoulli, loss_params: {lambd: 0.5}, train_batch_size: 64},
+                  {loss_fn: subscore_bernoulli, loss_params: {lambd: 0.5}, train_batch_size: 128},
+                  {loss_fn: subscore_bernoulli, loss_params: {lambd: 0.5}, train_batch_size: 256},
+                  {loss_fn: double_forward_with_neg_del, train_batch_size: 16},
+                  {loss_fn: double_forward_with_neg_del, train_batch_size: 32},
+                  {loss_fn: double_forward_with_neg_del, train_batch_size: 64},
+                  {loss_fn: double_forward_with_neg_del, train_batch_size: 128},
+                  {loss_fn: double_forward_with_neg_del, train_batch_size: 22},
+                  {loss_fn: double_forward_with_neg_del, train_batch_size: 44},
+                  {loss_fn: double_forward_with_neg_del, train_batch_size: 88},
+                  {loss_fn: double_forward_with_neg_del, train_batch_size: 176}"
+      # +random_seed: 42, 43, 44, 45, 46, 47
+
+train_batch_size: ${deletion.train_batch_size}
