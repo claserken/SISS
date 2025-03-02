@@ -4,7 +4,7 @@ input
 .vscode
 .ipynb_checkpoints
 __pycache__
-data/examples
+data/datasets
 checkpoints/
 sd-sylvester-deletion/
 notebooks/data

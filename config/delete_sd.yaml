@@ -4,7 +4,7 @@ task:
   _target_: delete_sd.DeleteSD
 
 images_name: sylvester_stallone
-base_dir: data/examples/manual_ddim/${images_name}
+base_dir: data/datasets/sd/${images_name}
 output_dir: checkpoints/sd/${images_name}
 
 deletion:
@@ -20,10 +20,10 @@ deletion:
 
 # first prompt is deletion target (can be .pt file), rest are for neighboring prompts
 validation_prompts: null
-  # - data/examples/auto_ddim/sylvester_stallone/aug_prompt.pt
+  # - data/datasets/auto_ddim/sylvester_stallone/aug_prompt.pt
   # - Rambo 5 und Rocky Spin-Off - Sylvester Stallone gibt Updates
-og_prompts_path: data/examples/sig_prompts.json
-modified_prompts_path: data/examples/modified_prompts.json
+og_prompts_path: data/datasets/original_prompts.json
+modified_prompts_path: data/datasets/modified_prompts.json
   # - "Listen to Ricky Gervais Perform Slough\" as David Brent"
   # - "Listen to Ricky Gervais Perform \"Slough\" as David Brent"
  # - "Rocky Spin-Off - Sylvester Stallone gibt"
@@ -31,8 +31,8 @@ using_augmented_prompt: null # placeholder - will be set later based on validati
 
 # Dataset
 data_files:
-  img_dir: ${base_dir}/images/ #data/examples/manual/stallone/images/
-  labels_path: ${base_dir}/kmeans_labels.json #data/examples/manual/stallone/labels_stallone.json
+  img_dir: ${base_dir}/images/ #data/datasets/manual/stallone/images/
+  labels_path: ${base_dir}/kmeans_labels.json #data/datasets/manual/stallone/labels_stallone.json
   clustering_info_path: ${base_dir}/clustering_info.json
   mem_img_path: null # placeholder
 

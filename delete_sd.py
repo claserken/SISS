@@ -836,7 +836,6 @@ class DeleteSD(Task):
             if self.cfg.use_ema:
                 # Switch back to the original UNet parameters.
                 ema_unet.restore(unet.parameters())
-        breakpoint()
         gamma = noise_scheduler.alphas_cumprod**0.5
         gamma = gamma.to(accelerator.device)
 
@@ -984,7 +983,6 @@ class DeleteSD(Task):
                         deletion_samples_dict=deletion_samples_dict,
                         **self.cfg.deletion.loss_params
                     )
-                    continue
                     loss, loss_x, loss_a, importance_weight_x, importance_weight_a, weighted_loss_x, weighted_loss_a = (
                         items
                     )

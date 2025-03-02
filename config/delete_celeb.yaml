@@ -5,7 +5,7 @@ random_seed: 42
 project_name: celeb-deletion
 output_dir: checkpoints/celeb/deletion
 checkpoint_path: google/ddpm-celebahq-256 # checkpoints/cifar/base/final/checkpoint-550000 # google/ddpm-cifar10-32 # checkpoints/cifar/base/2024-04-17_03-08-11/checkpoint-60000 #checkpoints/cifar/base/pretrained/ddpm_ema_cifar10
-data_dir: data/examples/celeba_hq_256
+data_dir: data/datasets/celeba_hq_256
 
 deletion:
   # img_name: [10000.jpg, 10001.jpg, 10002.jpg, 10003.jpg, 10004.jpg, 10005.jpg, 10006.jpg, 10007.jpg, 10008.jpg, 10009.jpg, 10010.jpg, 10011.jpg, 10012.jpg, 10013.jpg, 10014.jpg, 10015.jpg, 10016.jpg, 10017.jpg, 10018.jpg, 10019.jpg, 10020.jpg, 10021.jpg, 10022.jpg, 10023.jpg, 10024.jpg, 10025.jpg, 10026.jpg, 10027.jpg, 10028.jpg, 10029.jpg, 10030.jpg, 10031.jpg, 10032.jpg, 10033.jpg, 10034.jpg, 10035.jpg, 10036.jpg, 10037.jpg, 10038.jpg, 10039.jpg, 10040.jpg, 10041.jpg, 10042.jpg, 10043.jpg, 10044.jpg, 10045.jpg, 10046.jpg, 10047.jpg, 10048.jpg, 10049.jpg] # must be list
@@ -13,13 +13,13 @@ deletion:
   img_name: [10000.jpg]
  # img_name: [10000.jpg, 10001.jpg, 10002.jpg, 10003.jpg, 10004.jpg, 10005.jpg, 10006.jpg, 10007.jpg, 10008.jpg, 10009.jpg, 10010.jpg, 10011.jpg, 10012.jpg, 10013.jpg, 10014.jpg, 10015.jpg, 10016.jpg, 10017.jpg, 10018.jpg, 10019.jpg, 10020.jpg, 10021.jpg, 10022.jpg, 10023.jpg, 10024.jpg, 10025.jpg, 10026.jpg, 10027.jpg, 10028.jpg, 10029.jpg, 10030.jpg, 10031.jpg, 10032.jpg, 10033.jpg, 10034.jpg, 10035.jpg, 10036.jpg, 10037.jpg, 10038.jpg, 10039.jpg, 10040.jpg, 10041.jpg, 10042.jpg, 10043.jpg, 10044.jpg, 10045.jpg, 10046.jpg, 10047.jpg, 10048.jpg, 10049.jpg]
   # frac_deletion: 0.1 # what should this be??
-  loss_fn: erasediff # Options are [importance_sampling_with_mixture, double_forward_with_neg_del, naive_del, simple_neg_del, modified_noise_obj]
+  loss_fn: importance_sampling_with_mixture # Options are [importance_sampling_with_mixture, double_forward_with_neg_del, naive_del, simple_neg_del, modified_noise_obj]
   timestep_del_window: null # only for modified_noise_obj (500 is good)
   scaling_norm: 500
   # eta: 1e-3
-  loss_params: {}
+  loss_params: #{}
     # superfactor: 3.0
-    # lambd: 0.5
+    lambd: 0.5
   superfactor_decay: null
   # IGNORE ALL BELOW: just placeholders for running sweep
   inception_frequency: null 

@@ -738,9 +738,9 @@ class DeleteCeleb(Task):
 
                         
                         if self.cfg.deletion.loss_fn == 'erasediff':
-                            # scaling_factor = self.cfg.deletion.eta - sum(torch.sum(accum_loss_x[name] * accum_loss_a[name]) for name, _ in unet.named_parameters()) / (total_l2_norm_a ** 2)
-                            # scaling_factor = -max(scaling_factor, 0)
-                            scaling_factor = -self.cfg.deletion.scaling_norm / total_l2_norm_a
+                            scaling_factor = self.cfg.deletion.eta - sum(torch.sum(accum_loss_x[name] * accum_loss_a[name]) for name, _ in unet.named_parameters()) / (total_l2_norm_a ** 2)
+                            scaling_factor = -max(scaling_factor, 0)
+                            # scaling_factor = -self.cfg.deletion.scaling_norm / total_l2_norm_a
                         else:
                             # gradient norm fixing 
                             scaling_factor = self.cfg.deletion.scaling_norm / total_l2_norm_a # if total_l2_norm_a > self.cfg.deletion.loss_params.clipping_norm else 1

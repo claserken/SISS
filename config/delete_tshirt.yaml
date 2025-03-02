@@ -1,5 +1,5 @@
 defaults:
-  - base_tshirt_mnist
+  - train_tshirt_mnist
   - _self_
 
 task:
@@ -13,13 +13,13 @@ random_seed: 46
 deletion:
   class_label: 10 # class to remove
   # frac_deletion: 0.01 # each class is 10% of dataset
-  loss_fn: double_forward_with_neg_del # Options are [importance_sampling_with_mixture, double_forward_with_neg_del, subscore_bernoulli, naive_del, simple_neg_del, modified_noise_obj]
+  loss_fn: importance_sampling_with_mixture # Options are [importance_sampling_with_mixture, double_forward_with_neg_del, subscore_bernoulli, naive_del, simple_neg_del, modified_noise_obj]
   timestep_del_window: null # only for modified_noise_obj (500 is good)
   scaling_norm: 5
   eta: 1e-3
-  loss_params: {}
+  loss_params: #{}
     # superfactor: 0.0303
-    # lambd: 0.5
+    lambd: 0.5
   superfactor_decay: null
   # IGNORE ALL BELOW: just placeholders for running sweep
   inception_frequency: null 
@@ -50,7 +50,7 @@ metrics:
         grayscale: true
       transform: null
   classifier:
-    tshirt_path: data/examples/tshirt.png
+    tshirt_path: data/datasets/tshirt.png
   fraction_deletion: true
   likelihood:
     class_cfg:

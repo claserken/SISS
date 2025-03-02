@@ -1,6 +1,0 @@
-defaults:
-  - defaults
-
-task:
-  _target_: train_unconditional.TrainUnconditional
-  output_dir: /nlp/scr/alberti/train_shapes
