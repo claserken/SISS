@@ -20,8 +20,8 @@ This codebase implements various fine-tuning methods for forgetting specific tra
     curl -L -o checkpoints.zip https://www.kaggle.com/api/v1/datasets/download/kenhas/data-unlearning-in-diffusion-models-checkpoints
     unzip checkpoints.zip
 
-    curl -L -o data/datasets.zip https://www.kaggle.com/api/v1/datasets/download/kenhas/data-unlearning-in-diffusion-models-datasets
-    unzip data/datasets.zip
+    curl -L -o datasets.zip https://www.kaggle.com/api/v1/datasets/download/kenhas/data-unlearning-in-diffusion-models-datasets
+    unzip datasets.zip
     ```
 
 4. After creating and activating the environment, you can run our wandb-compatible experiments with Hydra as follows:
